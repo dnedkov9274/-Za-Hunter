@@ -8,13 +8,19 @@
 
 import UIKit
 import MapKit
+import SafariServices
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
+    let locationManager = CLLocationManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        locationManager.requestWhenInUseAuthorization()
+        mapView.showsUserLocation = true
+        
+        locationManager.delegate = self
     }
 
 
