@@ -24,6 +24,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             initalRegion = MKCoordinateRegion(center: mapView.centerCoordinate, span: mapView.region.span)
             isInitialMapLoad = false
         }
+        
     }
     
     
@@ -79,6 +80,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         func locationManager (_ manager:CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             currentLocation = locations[0]
             //print(currentLocation)
+            let locValue: CLLocationCoordinate2D = manager.location!.coordinate
+            let userLocation = locations.last
+            let viewRegion = MKCoordinateRegion(center: (userLocation?.coordinate)!, latitudinalMeters: 600, longitudinalMeters: 600)
+            self.mapView.setRegion(viewRegion, animated: true)
             
         }
     
@@ -108,7 +113,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 self.mapView.addAnnotation(annotation)
             }
         }
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
+    
     
 }
 
